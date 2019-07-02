@@ -20,4 +20,10 @@
       vars:
         postgres: "{{ infrastructure.args }}"
       when: infrastructure.name == "postgres" and infrastructure.args.servers.size > 0
+
+    - include_role:
+        name: "kafka-infra"
+      vars:
+        kafka: "{{ workload.args }}"
+      when: workload.name == "kafka" and workload.args.servers.size > 2
     when: infrastructure is defined
