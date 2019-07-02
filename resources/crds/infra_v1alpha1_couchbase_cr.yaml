@@ -1,8 +1,8 @@
-apiVersion: ripsaw.cloudbulldozer.io/v1alpha1
-kind: Benchmark
+apiVersion: builder.cloudbulldozer.io/v1alpha1
+kind: Infra
 metadata:
-  name: ycsb-couchbase-benchmark
-  namespace: ripsaw
+  name: couchbase-infra
+  namespace: builder-infra
 spec:
   infrastructure:
     name: couchbase
@@ -11,7 +11,7 @@ spec:
         # Typical deployment size is 3
         size: 3
       storage:
-        use_persistent_storage: True
+        use_persistent_storage: False
         class_name: "rook-ceph-block"
         volume_size: 10Gi
       deployment:
@@ -43,10 +43,3 @@ spec:
         #pod_version: "5.5.4-1"
         #default_bucket_password: "password"
         #pull_secret_name: "rhsecret"
-  workload:
-    name: ycsb
-    args:
-      workers: 1
-      infra: couchbase
-      driver: couchbase2
-      workload: workloada

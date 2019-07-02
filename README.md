@@ -1,20 +1,7 @@
-# Benchmark Operator
+# Infra Operator
 
-The intent of this Operator is to deploy common workloads to establish
+The intent of this Operator is to deploy common Infra required to run workloads against
 a performance baseline of Kubernetes cluster on your provider.
-
-## Workloads status
-
-| Workload                       | Use                   | Status in Operator |
-| ------------------------------ | --------------------  | ------------------ |
-| [UPerf](docs/uperf.md)         | Network Performance   | Working            |
-| [Iperf3](docs/iperf3.md)       | Network Performance   | Working            |
-| FIO-lite                       | Storage IO            | Working            |
-| [Sysbench](docs/sysbench.md)   | System Performance    | Working            |
-| [YCSB](docs/ycsb.md)           | Database Performance  | Working            |
-| [Byowl](docs/byowl.md)         | User defined workload | Working            |
-| [Kafka](docs/kafka.md)         | Infrastructure       | Working            |
-| [Postgres](docs/postgres.md)   | Infrastructure        | Working            |
 
 ## Infrastructure status
 
@@ -22,13 +9,15 @@ a performance baseline of Kubernetes cluster on your provider.
 | ------------------------------ | --------------------  | ------------------ |
 | [Couchbase](docs/couchbase.md) | Infrastructure        | Working            |
 | [MongoDB](docs/mongo.md)       | Infrastructure        | Working            |
+| [Kafka](docs/kafka.md)         | Infrastructure        | Working            |
+| [Postgres](docs/postgres.md)   | Infrastructure        | Working            |
 
 
 ## Installation
 [Installation](docs/installation.md)
 
 ## Contributing
-[Contributing](CONTRIBUTE.md)
+Please submit a PR
 
 ## Community
 Key Members(slack_usernames): aakarsh, dblack or rook

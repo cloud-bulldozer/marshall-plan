@@ -43,14 +43,12 @@ The workloads could also have their own requirements which would be specified
 in the installation guide.
 
 ### Deploying operator
-Note: The benchmark-operator's code-name is ripsaw, so the names have been
-used interchangeably.
 
 First we'll need to clone the operator:
 
 ```bash
-# git clone https://github.com/cloud-bulldozer/ripsaw
-# cd ripsaw
+# git clone https://github.com/cloud-bulldozer/cloud-builder
+# cd cloud-builder
 # export KUBECONFIG=<your_kube_config> # if not already done
 ```
 
@@ -60,52 +58,33 @@ can be done as follows:
 
 ```bash
 # kubectl apply -f resources/namespace.yaml
-# kubectl config set-context ripsaw --namespace=ripsaw --cluster=<your_cluster_name> --user=<your_cluster_admin_user>
-# kubectl config use-context ripsaw
+# kubectl config set-context builder-infra --namespace=builder-infra --cluster=<your_cluster_name> --user=<your_cluster_admin_user>
+# kubectl config use-context builder-infra
 ```
 
 We'll now apply the permissions and operator definitions.
 
 ```bash
 # kubectl apply -f deploy
-# kubectl apply -f resources/crds/ripsaw_v1alpha1_ripsaw_crd.yaml
+# kubectl apply -f resources/crds/infra_v1alpha1_builder_crd.yaml
 # kubectl apply -f resources/operator.yaml
 ```
 
-Note: we are currently experimenting with storing results in a pv attached to operator pod
-and some workload pods such as [uperf](uperf.md). This will also enable us to send results
-to a data store like ElasticSearch. If you'd like to try this out please use operator definition
-stored in [operator_store_results](../resources/operator_store_results.yaml) after creating a pvc
-as follows:
-```bash
-# kubectl apply -f resources/result-pvc.yaml
-# kubectl apply -f resources/crds/ripsaw_v1alpha1_ripsaw_crd.yaml
-# kubectl apply -f resources/operator_store_results.yaml
-```
 
-### Running workload
-Now that we've deployed our operator, follow workload specific instructions to
-run workloads:
-* [uperf](uperf.md)
-* [fio](fio.md)
-* [sysbench](sysbench.md)
-* [YCSB](ycsb.md)
-* [Bring your own workload](byowl.md)
+### Deploying Infra
+Now that we've deployed our operator, follow infra specific instructions to
+stand them up:
+* [kafka](kafka.md)
 * [postgres](postgres.md)
-
-Some of the above mentioned need application/infrastructure like ycsb, so you can deploy
-the necessary infrastructure manually, or you can use Ripsaw to do so, we currently support:
 * [MongoDB](mongo.md)
 * [couchbase](couchbase.md)
-
-If you want to add a new workload please follow these [instructions](../CONTRIBUTE.md#Add-workload) to submit a PR
 
 ### Clean up
 Now that we're running workloads we can cleanup by running following commands
 
 ```bash
 # kubectl delete -f <your_cr_file>
-# kubectl delete -f resources/crds/ripsaw_v1alpha1_ripsaw_crd.yaml
+# kubectl delete -f resources/crds/infra_v1alpha1_builder_crd.yaml
 # kubectl delete -f resources/operator.yaml
 # kubectl delete -f deploy
 ```

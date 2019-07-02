@@ -1,8 +1,8 @@
-apiVersion: ripsaw.cloudbulldozer.io/v1alpha1
-kind: Benchmark
+apiVersion: builder.cloudbulldozer.io/v1alpha1
+kind: Infra
 metadata:
   name: postgres-infra
-  namespace: ripsaw
+  namespace: builder-infra
 spec:
   infrastructure:
     name: postgres
