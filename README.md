@@ -14,8 +14,8 @@ a performance baseline of Kubernetes cluster on your provider.
 | [Couchbase](docs/couchbase.md) | Infrastructure        | Working            |
 | [YCSB](docs/ycsb.md)           | Database Performance  | Working            |
 | [Byowl](docs/byowl.md)         | User defined workload | Working            |
+| [Kafka](docs/kafka.md)         | Infrastructure       | Working            |
 | [Postgres](docs/postgres.md)   | Infrastructure        | Working            |
-
 
 ## Installation
 [Installation](docs/installation.md)

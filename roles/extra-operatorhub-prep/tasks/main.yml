@@ -7,6 +7,10 @@
   k8s:
     definition: "{{ lookup('template', 'catalogsource.yaml.j2') }}"
 
+- name: Deploy operator group
+  k8s:
+    definition: "{{ lookup('template', 'operatorgroup.yaml.j2') }}"
+
 - name: Wait for catalogsource to be ready...
   k8s_facts:
     kind: pod
@@ -18,4 +22,3 @@
   until: "'Running' in (cs_pod | json_query('resources[].status.phase'))"
   retries: 10
   delay: 10
-

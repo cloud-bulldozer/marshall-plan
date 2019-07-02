@@ -39,3 +39,4 @@ echo "CI tests that failed: "${failed[@]}
 echo "Smoke test: Complete"
 
 exit $pass
+
