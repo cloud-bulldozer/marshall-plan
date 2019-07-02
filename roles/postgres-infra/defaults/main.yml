@@ -1,0 +1,6 @@
+---
+# defaults file for postgres-infra
+
+postgres_operator_package: "{{ infrastructure.args.deployment.postgres_operator_package | default('postgres-operator') }}"
+#olm_catalog: "{{ infrastructure.args.deployment.olm_catalog | default('operatorhubio-catalog') }}"
+#olm_namespace: "{{ infrastructure.args.deployment.olm_namespace | default('olm') }}"

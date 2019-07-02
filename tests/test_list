@@ -1,0 +1,8 @@
+test_postgres.sh
+test_fiod.sh
+test_fio.sh
+test_iperf3.sh
+test_sysbench.sh
+test_uperf.sh
+test_byowl.sh
+test_ycsb-couchbase.sh
