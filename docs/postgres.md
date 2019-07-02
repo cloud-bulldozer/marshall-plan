@@ -18,11 +18,11 @@ $ kubectl apply -f https://raw.githubusercontent.com/operator-framework/operator
 An example to enable only the Postgres infra (this does _not_ run a workload):
 
 ```yaml
-apiVersion: ripsaw.cloudbulldozer.io/v1alpha1
-kind: Benchmark
+apiVersion: builder.cloudbulldozer.io/v1alpha1
+kind: Infra
 metadata:
   name: postgres-infra
-  namespace: ripsaw
+  namespace: builder-infra
 spec:
   infrastructure:
     name: postgres
@@ -54,7 +54,7 @@ spec:
         #olm_namespace: openshift-operator-lifecycle-manager
 ```
 
-**Please see the example [CR file](../resources/crds/ripsaw_v1alpha1_postgres_cr.yaml) for further examples for different deployment environments.**
+**Please see the example [CR file](../resources/crds/infra_v1alpha1_postgres_cr.yaml) for further examples for different deployment environments.**
 
 ### Persistent Storage
 If you set `spec.infrastructure.args.stroage.use_persistent_storage` to `true`, then you will need to provide a valid
@@ -65,7 +65,7 @@ A valid volume size for `spec.infrastructure.args.storage.volume_size` is requir
 *Setting up a StorageClass is outside the scope of this documentation.*
 
 ### Starting the Infra
-Once you are finished creating/editing the custom resource file and the Ripsaw benchmark operator is running, you can start the infra with:
+Once you are finished creating/editing the custom resource file and the infra operator is running, you can start the infra with:
 
 ```bash
 $ kubectl apply -f /path/to/cr.yaml
@@ -85,9 +85,5 @@ server infrastructure in a stateful manner.
 ```bash
 $ kubectl get pods -l spilo-role=master
 NAME                                  READY     STATUS    RESTARTS   AGE
-ripsaw-postgres-cluster-0             1/1       Running   0          9m58s
+infra-postgres-cluster-0             1/1       Running   0          9m58s
 ```
-
-**Note that the postgres role is only an infrastructure role, and no workloads will be triggered directly
-by running the CR as described here. You will need to separately define a workload in the CR (such as [pgbench](TODO)).**
-

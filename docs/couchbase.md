@@ -18,11 +18,11 @@ $ kubectl apply -f https://raw.githubusercontent.com/operator-framework/operator
 An example to enable only the Couchbase infra (this does _not_ run a workload):
 
 ```yaml
-apiVersion: ripsaw.cloudbulldozer.io/v1alpha1
-kind: Benchmark
+apiVersion: builder.cloudbulldozer.io/v1alpha1
+kind: Infra
 metadata:
   name: couchbase-infra
-  namespace: ripsaw
+  namespace: builder-infra
 spec:
   infrastructure:
     name: couchbase
@@ -40,8 +40,6 @@ spec:
         pod_version: "enterprise-5.5.2"
         default_bucket_password: "password"
 ```
-
-**Please see the example [CR file](../resources/crds/ripsaw_v1alpha1_cb_cr.yaml) for further examples for different deployment environments.**
 
 ### Persistent Storage
 If you set `spec.infrastructure.args.stroage.use_persistent_storage` to `true`, then you will need to provide a valid
@@ -66,11 +64,11 @@ oc create -f <username>.secret.yaml
 
 Example CR for OpenShift v3:
 ```yaml
-apiVersion: ripsaw.cloudbulldozer.io/v1alpha1
-kind: Benchmark
+apiVersion: builder.cloudbulldozer.io/v1alpha1
+kind: Infra
 metadata:
   name: couchbase-infra
-  namespace: ripsaw
+  namespace: builder-infra
 spec:
   infrastructure:
     name: couchbase
@@ -92,11 +90,11 @@ spec:
 
 Example CR for OpenShift v4 (which includes a built-in OLM and Marketplace):
 ```yaml
-apiVersion: ripsaw.cloudbulldozer.io/v1alpha1
-kind: Benchmark
+apiVersion: builder.cloudbulldozer.io/v1alpha1
+kind: Infra
 metadata:
   name: couchbase-infra
-  namespace: ripsaw
+  namespace: builder-infra
 spec:
   infrastructure:
     name: couchbase
@@ -117,7 +115,7 @@ spec:
 ```
 
 ### Starting the Infra
-Once you are finished creating/editing the custom resource file and the Ripsaw benchmark operator is running, you can start the infra with:
+Once you are finished creating/editing the custom resource file and the infra operator is running, you can start the infra with:
 
 ```bash
 $ kubectl apply -f /path/to/cr.yaml
@@ -147,7 +145,7 @@ You can then confirm the state of the couchbase cluster:
 ```
 $ kubectl describe cbc
 Name:         cb-benchmark
-Namespace:    ripsaw
+Namespace:    builder-infra
 Labels:       <none>
 Annotations:  <none>
 API Version:  couchbase.com/v1
@@ -156,9 +154,9 @@ Metadata:
   Creation Timestamp:  2019-03-21T21:32:45Z
   Generation:          1
   Owner References:
-    API Version:     ripsaw.cloudbulldozer.io/v1alpha1
-    Kind:            Benchmark
-    Name:            example-benchmark
+    API Version:     builder.cloudbulldozer.io/v1alpha1
+    Kind:            Infra
+    Name:            example-infra
     UID:             c87f2ba3-4c20-11e9-8a78-128d7ee91aa6
   Resource Version:  2201864
   Self Link:         /apis/couchbase.com/v1/namespaces/benchmark/couchbaseclusters/cb-benchmark
@@ -266,6 +264,3 @@ Events:
   Normal  RebalanceCompleted  36s   couchbase-operator-7b489f685c-ds88v  A rebalance has completed
   Normal  BucketCreated       26s   couchbase-operator-7b489f685c-ds88v  A new bucket `default` was created
 ```
-
-**Note that the Couchbase role is only an infrastructure role, and no workloads will be triggered directly
-by running the CR as described here. You will need to separately define a workload in the CR (such as [YCSB](ycsb.md)).**

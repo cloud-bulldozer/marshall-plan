@@ -13,11 +13,11 @@ is outside the scope of this documentation.
 An example to enable only the MongoDB infra (this does _not_ run a workload):
 
 ```yaml
-apiVersion: ripsaw.cloudbulldozer.io/v1alpha1
-kind: Benchmark
+apiVersion: builder.cloudbulldozer.io/v1alpha1
+kind: Infra
 metadata:
   name: mongo-infra
-  namespace: ripsaw
+  namespace: builder-infra
 spec:
   infrastructure:
     name: mongo
@@ -32,7 +32,7 @@ spec:
 ```
 
 ### Starting the Infra
-Once you are finished creating/editing the custom resource file and the Ripsaw benchmark operator is running, you can start the infra with:
+Once you are finished creating/editing the custom resource file and the infra operator is running, you can start the infra with:
 
 ```bash
 $ kubectl apply -f /path/to/cr.yaml
@@ -49,6 +49,3 @@ mongo-2   2/2     Running   0          6m45s
 ```
 
 The connection string URI is "mongodb://mongo/ycsb?replicaSet=rs0"
-
-**Note that the MongoDB role is only an infrastructure role, and no workloads will be triggered directly
-by running the CR as described here. You will need to separately define a workload in the CR (such as [YCSB](ycsb.md)).**

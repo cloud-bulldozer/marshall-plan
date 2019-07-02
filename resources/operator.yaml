@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: benchmark-operator
-  namespace: ripsaw
+  name: infra-operator
+  namespace: builder-infra
 spec:
   replicas: 1
   selector:
     matchLabels:
-      name: benchmark-operator
+      name: infra-operator
   template:
     metadata:
       labels:
-        name: benchmark-operator
+        name: infra-operator
     spec:
-      serviceAccountName: benchmark-operator
+      serviceAccountName: infra-operator
       containers:
-        - name: benchmark-operator
+        - name: infra-operator
           # Replace this with the built image name
-          image: quay.io/benchmark-operator/benchmark-operator:master
+          image: quay.io/cloud-bulldozer/infra-operator:master
           imagePullPolicy: Always
           env:
             - name: WATCH_NAMESPACE
@@ -31,20 +31,4 @@ spec:
             - name: ANSIBLE_VERBOSITY
               value: "4"
             - name: OPERATOR_NAME
-              value: "benchmark-operator"
-        - name: redis-master
-          image: k8s.gcr.io/redis:v1
-          env:
-            - name: MASTER
-              value: "true"
-          ports:
-            - containerPort: 6379
-          resources:
-            limits:
-              cpu: "0.1"
-          volumeMounts:
-            - mountPath: /redis-master-data
-              name: data
-      volumes:
-        - name: data
-          emptyDir: {}
+              value: "infra-operator"

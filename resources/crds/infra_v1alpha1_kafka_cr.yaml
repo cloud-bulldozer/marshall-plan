@@ -1,8 +1,8 @@
-apiVersion: ripsaw.cloudbulldozer.io/v1alpha1
-kind: Benchmark
+apiVersion: builder.cloudbulldozer.io/v1alpha1
+kind: Infra
 metadata:
-  name: kafka-benchmark
-  namespace: ripsaw
+  name: kafka-infra
+  namespace: builder-infra
 spec:
   cleanup: false
   workload:

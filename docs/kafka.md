@@ -14,14 +14,14 @@ $ kubectl create -f https://raw.githubusercontent.com/operator-framework/operato
 ## Running the Kafka infra
 
 Given that you followed instructions to deploy the benchmark operator,
-you can modify the [ripsaw_v1alpha1_kafka_cr.yaml](../resources/crds/ripsaw_v1alpha1_kafka_cr.yaml)
+you can modify the [infra_v1alpha1_kafka_cr.yaml](../resources/crds/infra_v1alpha1_kafka_cr.yaml)
 
 ```yaml
-apiVersion: ripsaw.cloudbulldozer.io/v1alpha1
-kind: Benchmark
+apiVersion: builder.cloudbulldozer.io/v1alpha1
+kind: Infra
 metadata:
-  name: kafka-benchmark
-  namespace: ripsaw
+  name: kafka-infra
+  namespace: builder-infra
 spec:
   cleanup: false
   workload:
@@ -51,7 +51,7 @@ Setting up a StorageClass is outside the scope of this documentation.
 Once you are finished creating/editing the custom resource file, you can run it by:
 
 ```bash
-$ kubectl create -f /path/to/ripsaw_v1alpha1_kafka_cr.yaml.yaml
+$ kubectl create -f /path/to/infra_v1alpha1_kafka_cr.yaml.yaml
 ```
 
 Deploying the above will first result in the OLM catalogs to spawn.
@@ -65,7 +65,7 @@ operatorhubio-catalog-rgbg5                 1/1     Running   0          81s
 This will then result in the Strimzi operator running.
 
 ```bash
-$ kubectl -n ripsaw get pods -l name=strimzi-cluster-operator
+$ kubectl -n builder-infra get pods -l name=strimzi-cluster-operator
 NAME                                        READY     STATUS    RESTARTS   AGE
 strimzi-cluster-operator-7b6677f9f9-qdn48   1/1       Running   0          1h
 ```
@@ -74,7 +74,7 @@ Once the Strimzi operator is running, the benchmark operator will then launch th
 server infrastructure in a stateful manner.
 
 ```bash
-$ kubectl -n ripsaw get pods -l strimzi.io/kind=Kafka
+$ kubectl -n builder-infra get pods -l strimzi.io/kind=Kafka
 NAME                                              READY     STATUS              RESTARTS   AGE
 kafka-benchmark-entity-operator-ddc84cd4f-vs7qt   0/3       ContainerCreating   0          6s
 kafka-benchmark-kafka-0                           2/2       Running             0          1h

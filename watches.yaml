@@ -1,9 +1,9 @@
 ---
 - version: v1alpha1
-  group: ripsaw.cloudbulldozer.io
-  kind: Benchmark
+  group: builder.cloudbulldozer.io
+  kind: Infra
   playbook: /opt/ansible/playbook.yml
   finalizer:
-    name: finalizer.ripsaw.cloudbulldozer.io
+    name: finalizer.builder.cloudbulldozer.io
     vars:
       teardown: true

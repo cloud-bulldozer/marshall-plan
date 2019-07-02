@@ -15,62 +15,9 @@
         mongo: "{{ infrastructure.args }}"
       when: infrastructure.name == "mongo" and infrastructure.args.servers > 0
 
+    - include_role:
         name: "postgres-infra"
       vars:
         postgres: "{{ infrastructure.args }}"
       when: infrastructure.name == "postgres" and infrastructure.args.servers.size > 0
     when: infrastructure is defined
-
-  - name: Run Workload
-    block:
-    - include_role:
-        name: "uuid"
-
-    - include_role:
-        name: "uperf-bench"
-      vars:
-        uperf: "{{ workload.args }}"
-      when: workload.name == "uperf"  and workload.args.pair > 0
-
-    - include_role:
-        name: "iperf3-bench"
-      vars:
-        iperf3: "{{ workload.args }}"
-      when: workload.name == "iperf3" and workload.args.pairs > 0
-
-    - include_role:
-        name: "fio-bench"
-      vars:
-        fio: "{{ workload.args }}"
-      when: workload.name == "fio" and workload.args.clients > 0
-
-    - include_role:
-        name: sysbench
-      vars:
-        sysbench : "{{ workload.args }}"
-      when: workload.name == "sysbench" and workload.args.enabled is defined and workload.args.enabled
-
-    - include_role:
-        name: "ycsb-bench"
-      vars:
-        ycsb: "{{ workload.args }}"
-      when: workload.name == "ycsb" and workload.args.workers > 0
-
-    - include_role:
-        name: "byowl"
-      vars:
-        byowl: "{{ workload.args }}"
-      when: workload.name == "byowl" and workload.args.clients > 0
-
-    - include_role:
-        name: "fio-distributed"
-      vars:
-        fiod: "{{ workload.args }}"
-      when: workload.name == "fio_distributed" and workload.args.servers > 0
-
-    - include_role:
-        name: "kafka-infra"
-      vars:
-        kafka: "{{ workload.args }}"
-      when: workload.name == "kafka" and workload.args.servers.size > 2
-    when: workload is defined
