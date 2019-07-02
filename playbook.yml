@@ -10,11 +10,15 @@
       when: infrastructure.name == "couchbase" and infrastructure.args.servers.size > 0
 
     - include_role:
+        name: "mongo-infra"
+      vars:
+        mongo: "{{ infrastructure.args }}"
+      when: infrastructure.name == "mongo" and infrastructure.args.servers > 0
+
         name: "postgres-infra"
       vars:
         postgres: "{{ infrastructure.args }}"
       when: infrastructure.name == "postgres" and infrastructure.args.servers.size > 0
-
     when: infrastructure is defined
 
   - name: Run Workload
