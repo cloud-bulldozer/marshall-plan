@@ -5,7 +5,7 @@ metadata:
   namespace: builder-infra
 spec:
   cleanup: false
-  workload:
+  infrastructure:
     # To disable kafka set the servers.size to 0
     # Minimum valid servers.size is 3
     name: "kafka"
