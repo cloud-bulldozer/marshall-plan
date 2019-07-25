@@ -22,7 +22,8 @@ spec:
   infrastructure:
     name: mongo
     args:
-      servers: 3 # has to be > 0
+      clusters: 1 # number of mongo clusters
+      cluster_size: 3 # number of pods per mongo cluster
       storageclass: # uses the sc with the annotation storageclass.kubernetes.io/is-default-class: "true" if the option is not specified
       storagesize: 10Gi # default value if option not specified
       port: 27017 # default value if option not specified
@@ -44,8 +45,6 @@ You can then check if mongo pods are created as follows
 $ kubectl get pods -l "role=mongo"
 NAME      READY   STATUS    RESTARTS   AGE
 mongo-0   2/2     Running   0          6m51s
-mongo-1   2/2     Running   0          6m48s
-mongo-2   2/2     Running   0          6m45s
 ```
 
-The connection string URI is "mongodb://mongo/ycsb?replicaSet=rs0"
+The connection string URI for the first cluster would be mongodb://mongo0-0.mongo0.builder-infra.svc.cluster.local:27017 and for second cluster it would be mongodb://mongo1-0.mongo1.builder-infra.svc.cluster.local:27017
