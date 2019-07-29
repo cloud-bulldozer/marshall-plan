@@ -1,11 +1,11 @@
 apiVersion: apps/v1beta1
 kind: StatefulSet
 metadata:
- name: mongo
+ name: mongo{{cluster_number}}
  namespace: '{{ operator_namespace }}'
 spec:
- serviceName: "mongo"
- replicas: {{ mongo.servers }}
+ serviceName: "mongo{{cluster_number}}"
+ replicas: {{ mongo.cluster_size }}
  template:
    metadata:
      labels:
@@ -37,11 +37,6 @@ spec:
          volumeMounts:
            - name: mongo-persistent-storage
              mountPath: /data/db
-       - name: mongo-sidecar
-         image: cvallance/mongo-k8s-sidecar
-         env:
-           - name: MONGO_SIDECAR_POD_LABELS
-             value: "role=mongo,environment=test"
  volumeClaimTemplates:
    - metadata:
        name: mongo-persistent-storage

@@ -13,7 +13,8 @@
         name: "mongo-infra"
       vars:
         mongo: "{{ infrastructure.args }}"
-      when: infrastructure.name == "mongo" and infrastructure.args.servers > 0
+      when: infrastructure.name == "mongo" and infrastructure.args.cluster_size > 0 and infrastructure.args.clusters > 0
+      with_sequence: start=0 end='{{ infrastructure.args.clusters|int }}'
 
     - include_role:
         name: "postgres-infra"

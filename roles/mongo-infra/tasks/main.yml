@@ -1,6 +1,10 @@
 ---
 - name: Deploy
   block:
+    - name: setting cluster number
+      set_fact:
+        cluster_number: "{{ item }}"
+
     - name: create service for MongoDB
       k8s:
         definition: "{{ lookup('template', 'mongo-service.yaml.j2') }}"
@@ -17,12 +21,12 @@
         label_selectors:
           - role = mongo
       register: server_pods
-      until: "mongo.servers  == (server_pods | json_query('resources[].status.podIP')|length)"
+      until: "(mongo.cluster_size * (cluster_number|int + 1))  == (server_pods | json_query('resources[].status.podIP')|length)"
       retries: 10
       delay: 10
 
     - name: Initialize the replicaset
-      script: initiate_rs.py {{ mongo.servers }}
+      script: initiate_rs.py {{ mongo.cluster_size }} {{ cluster_number }}
   when: teardown is undefined
 
 - name: Cleanup
