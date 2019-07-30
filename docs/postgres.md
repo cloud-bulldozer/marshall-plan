@@ -1,17 +1,12 @@
-# PostgreSQL
+# Postgres
 
-[PostgreSQL](https://www.postgresql.org/) is an open source object-relational database system.
-
-## Prerequisites
-### OLM
-The [Operator Lifecycle Manager (OLM)](https://github.com/operator-framework/operator-lifecycle-manager/blob/master/Documentation/install/install.md) is required to run the Zalando PostgreSQL operator from [operatorhub.io](https://operatorhub.io). If your distribution of OpenShift/Kubernetes does not include this, you will need to install it first.
-
-```bash
-$ kubectl apply -f https://raw.githubusercontent.com/operator-framework/operator-lifecycle-manager/master/deploy/upstream/quickstart/crds.yaml
-$ kubectl apply -f https://raw.githubusercontent.com/operator-framework/operator-lifecycle-manager/master/deploy/upstream/quickstart/olm.yaml
-```
+[PostgreSQL](https://www.postgresql.org/), also known as Postgres, is a free and open-source relational database management system emphasizing extensibility and technical standards compliance
 
 ## Using the Postgres Infra
+
+### Pre-requisites
+MongoDB uses volumeClaimTemplates to request volumes, thus you'll need to create a storageclass. Creating a storageclass
+is outside the scope of this documentation.
 
 ### Customizing your CR
 
@@ -27,42 +22,14 @@ spec:
   infrastructure:
     name: postgres
     args:
-      servers:
-        # Typical deployment size is 3
-        size: 1
-      storage:
-        # persistent storage volume is required
-        class_name: "standard"
-        volume_size: 1G
-      deployment:
-        # These are deployment defaults from roles/postgres-infra/defaults
-        # that can be overridden here.
-        #
-        ## For Generic K8s w/ Upstream OLM
-        #postgres_operator_package: "postgres-operator"
-        #olm_catalog: operatorhubio-catalog
-        #olm_namespace: olm
-        #
-        ## For OpenShift v3 w/ Upstream OLM
-        #postgres_operator_package: TODO
-        #olm_catalog: TODO
-        #olm_namespace: TODO
-        #
-        ## For OpenShift v4 w/ Built-In OLM
-        #postgres_operator_package: "postgres-operator"
-        #olm_catalog: operatorhubio-catalog
-        #olm_namespace: openshift-operator-lifecycle-manager
+      clusters: 1 # number of postgres clusters
+      cluster_size: 3 # number of pods per postgres cluster
+      #storageclass: # uses the sc with the annotation storageclass.kubernetes.io/is-default-class: "true" if the option is not specified or commented
+      storagesize: 10Gi # default value if option not specified
+      port: 5432 # default value if option not specified
 ```
 
-**Please see the example [CR file](../resources/crds/infra_v1alpha1_postgres_cr.yaml) for further examples for different deployment environments.**
-
-### Persistent Storage
-If you set `spec.infrastructure.args.stroage.use_persistent_storage` to `true`, then you will need to provide a valid
-StorageClass name for `spec.infrastructure.args.storage.class_name`
-
-A valid volume size for `spec.infrastructure.args.storage.volume_size` is required whether or not you enable persistent storage.
-
-*Setting up a StorageClass is outside the scope of this documentation.*
+Additionally if you'd like to use a specific postgres image tag, you can add another field args.postgres and set it to the tag. tag defaults to 10.4.
 
 ### Starting the Infra
 Once you are finished creating/editing the custom resource file and the infra operator is running, you can start the infra with:
@@ -71,19 +38,12 @@ Once you are finished creating/editing the custom resource file and the infra op
 $ kubectl apply -f /path/to/cr.yaml
 ```
 
-Deploying the above will first result in the postgres operator running.
+You can then check if mongo pods are created as follows
 
 ```bash
-$ kubectl get pods -l name=postgres-operator
-NAME                                  READY     STATUS    RESTARTS   AGE
-postgres-operator-7b489f685c-j6vs8   1/1       Running   0          4m59s
+$ kubectl get pods -l "role=postgres"
+NAME      READY   STATUS    RESTARTS   AGE
+postgres0-0   1/1     Running   0          51s
 ```
 
-Once the postgres operator is running, the benchmark operator will then launch the postgres
-server infrastructure in a stateful manner.
-
-```bash
-$ kubectl get pods -l spilo-role=master
-NAME                                  READY     STATUS    RESTARTS   AGE
-infra-postgres-cluster-0             1/1       Running   0          9m58s
-```
+The connection string URI for the first cluster would be postgres0-0.postgres0.builder-infra.svc.cluster.local:5432 and for second cluster it would be postgres1-0.postgres1.builder-infra.svc.cluster.local:27017

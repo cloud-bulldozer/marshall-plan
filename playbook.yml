@@ -14,13 +14,20 @@
       vars:
         mongo: "{{ infrastructure.args }}"
       when: infrastructure.name == "mongo" and infrastructure.args.cluster_size > 0 and infrastructure.args.clusters > 0
-      with_sequence: start=0 end='{{ infrastructure.args.clusters|int-1 }}'
+      with_sequence: start=0 end='{{ infrastructure.args.clusters|int - 1 }}'
+
+    - include_role:
+        name: "postgres-zalando"
+      vars:
+        postgres: "{{ infrastructure.args }}"
+      when: infrastructure.name == "postgres-zalando" and infrastructure.args.servers.size > 0
 
     - include_role:
         name: "postgres-infra"
       vars:
         postgres: "{{ infrastructure.args }}"
-      when: infrastructure.name == "postgres" and infrastructure.args.servers.size > 0
+      when: infrastructure.name == "postgres" and infrastructure.args.cluster_size > 0 and infrastructure.args.clusters > 0
+      with_sequence: start=0 end='{{ infrastructure.args.clusters|int - 1 }}'
 
     - include_role:
         name: "kafka-infra"

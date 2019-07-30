@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres{{cluster_number}}
+  namespace: '{{ operator_namespace }}'
+  labels:
+    name: postgres
+spec:
+  ports:
+{% if postgres.port is not defined %}
+    - port: 5432
+      targetPort: 5432
+{% endif %}
+{% if postgres.port is defined %}
+    - port: {{ postgres.port }}
+      targetPort: {{ postgres.port }}
+{% endif %}
+  clusterIP: None
+  selector:
+    role: postgres

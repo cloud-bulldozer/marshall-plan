@@ -1,0 +1,42 @@
+apiVersion: apps/v1beta1
+kind: StatefulSet
+metadata:
+ name: postgres{{cluster_number}}
+ namespace: '{{ operator_namespace }}'
+spec:
+ serviceName: "postgres{{cluster_number}}"
+ replicas: {{ postgres.cluster_size }}
+ template:
+   metadata:
+     labels:
+       role: postgres
+   spec:
+     terminationGracePeriodSeconds: 10
+     containers:
+       - name: postgres
+         image: postgres:{{ tag }}
+         envFrom:
+           - configMapRef:
+               name: postgres-config
+         ports:
+{% if postgres.port is not defined %}
+           - containerPort: 5432
+{% endif %}
+{% if postgres.port is defined %}
+           - containerPort: {{ postgres.port }}
+{% endif %}
+         volumeMounts:
+           - name: postgres-persistent-storage
+             mountPath: /var/lib/postgresql/data
+ volumeClaimTemplates:
+   - metadata:
+       name: postgres-persistent-storage
+{% if postgres.storageclass is defined %}
+       annotations:
+         volume.beta.kubernetes.io/storage-class: {{ postgres.storageclass }}
+{% endif %}
+     spec:
+       accessModes: [ "ReadWriteOnce" ]
+       resources:
+         requests:
+           storage: {{ storagesize }}
