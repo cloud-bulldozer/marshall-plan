@@ -129,22 +129,22 @@ NAME                                  READY     STATUS    RESTARTS   AGE
 couchbase-operator-7b489f685c-j6vs8   1/1       Running   0          4m59s
 ```
 
-Once the Couchbase operator is running, the benchmark operator will then launch the couchbase
+Once the Couchbase operator is running, the infra operator will then launch the couchbase
 server infrastructure in a stateful manner.
 
 ```bash
 $ kubectl get pods -l app=couchbase
 NAME                READY     STATUS    RESTARTS   AGE
-cb-benchmark-0000   1/1       Running   0          5m27s
-cb-benchmark-0001   1/1       Running   0          4m52s
-cb-benchmark-0002   1/1       Running   0          4m18s
+cb-infra-0000   1/1       Running   0          5m27s
+cb-infra-0001   1/1       Running   0          4m52s
+cb-infra-0002   1/1       Running   0          4m18s
 ```
 
 You can then confirm the state of the couchbase cluster:
 
 ```
 $ kubectl describe cbc
-Name:         cb-benchmark
+Name:         cb-infra
 Namespace:    builder-infra
 Labels:       <none>
 Annotations:  <none>
@@ -159,7 +159,7 @@ Metadata:
     Name:            example-infra
     UID:             c87f2ba3-4c20-11e9-8a78-128d7ee91aa6
   Resource Version:  2201864
-  Self Link:         /apis/couchbase.com/v1/namespaces/benchmark/couchbaseclusters/cb-benchmark
+  Self Link:         /apis/couchbase.com/v1/namespaces/infra/couchbaseclusters/cb-infra
   UID:               de05d9d5-4c20-11e9-b61f-0eb0f8a20cc0
 Spec:
   Admin Console Services:
@@ -182,7 +182,7 @@ Spec:
     Auto Failover On Data Disk Issues Time Period:  120
     Auto Failover Server Group:                     false
     Auto Failover Timeout:                          120
-    Cluster Name:                                   cb-benchmark
+    Cluster Name:                                   cb-infra
     Data Service Memory Quota:                      256
     Eventing Service Memory Quota:                  256
     Index Service Memory Quota:                     256
@@ -247,19 +247,19 @@ Status:
   Members:
     Index:  3
     Ready:
-      Name:  cb-benchmark-0000
-      Name:  cb-benchmark-0001
-      Name:  cb-benchmark-0002
+      Name:  cb-infra-0000
+      Name:  cb-infra-0001
+      Name:  cb-infra-0002
   Phase:     Running
   Reason:
   Size:      3
 Events:
   Type    Reason              Age   From                                 Message
   ----    ------              ----  ----                                 -------
-  Normal  ServiceCreated      3m    couchbase-operator-7b489f685c-ds88v  Service for admin console `cb-benchmark-ui` was created
-  Normal  NewMemberAdded      2m    couchbase-operator-7b489f685c-ds88v  New member cb-benchmark-0000 added to cluster
-  Normal  NewMemberAdded      1m    couchbase-operator-7b489f685c-ds88v  New member cb-benchmark-0001 added to cluster
-  Normal  NewMemberAdded      1m    couchbase-operator-7b489f685c-ds88v  New member cb-benchmark-0002 added to cluster
+  Normal  ServiceCreated      3m    couchbase-operator-7b489f685c-ds88v  Service for admin console `cb-infra-ui` was created
+  Normal  NewMemberAdded      2m    couchbase-operator-7b489f685c-ds88v  New member cb-infra-0000 added to cluster
+  Normal  NewMemberAdded      1m    couchbase-operator-7b489f685c-ds88v  New member cb-infra-0001 added to cluster
+  Normal  NewMemberAdded      1m    couchbase-operator-7b489f685c-ds88v  New member cb-infra-0002 added to cluster
   Normal  RebalanceStarted    1m    couchbase-operator-7b489f685c-ds88v  A rebalance has been started to balance data across the cluster
   Normal  RebalanceCompleted  36s   couchbase-operator-7b489f685c-ds88v  A rebalance has completed
   Normal  BucketCreated       26s   couchbase-operator-7b489f685c-ds88v  A new bucket `default` was created
