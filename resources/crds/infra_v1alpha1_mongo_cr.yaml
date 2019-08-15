@@ -7,6 +7,7 @@ spec:
   infrastructure:
     name: mongo
     args:
+      tag: 4
       clusters: 2 # number of mongo clusters
       cluster_size: 3 # number of pods per mongo cluster
       storageclass: # uses the sc with the annotation storageclass.kubernetes.io/is-default-class: "true" if the option is not specified

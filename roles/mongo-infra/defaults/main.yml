@@ -1,2 +1,5 @@
 ---
-mongo.storagesize: 10Gi
+mongo:
+  storagesize: 10Gi
+mongo:
+  tag: 4
