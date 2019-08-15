@@ -5,12 +5,13 @@ a performance baseline of Kubernetes cluster on your provider.
 
 ## Infrastructure status
 
-| Workload                       | Use                   | Status in Operator |
-| ------------------------------ | --------------------  | ------------------ |
-| [Couchbase](docs/couchbase.md) | Infrastructure        | Working            |
-| [MongoDB](docs/mongo.md)       | Infrastructure        | Working            |
-| [Kafka](docs/kafka.md)         | Infrastructure        | Working            |
-| [Postgres](docs/postgres.md)   | Infrastructure        | Working            |
+| Workload                                       | Deployment  Strategy  | Status in Operator |
+| ---------------------------------------------- | --------------------  | ------------------ |
+| [Couchbase](docs/couchbase.md)                 | Couchbase Operator    | Working            |
+| [MongoDB](docs/mongo.md)                       | Statefulset/Service   | Working            |
+| [Postgres](docs/postgres.md)                   | Statefulset/Service   | Working            |
+| [Kafka](docs/kafka.md)                         | Strimzi Operator      | Working            |
+| [Postgres-Zalando](docs/postgres-zalando.md)   | Zalando Operator      | Working            |
 
 
 ## Installation
