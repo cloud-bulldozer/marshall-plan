@@ -5,7 +5,7 @@
 ## Using the Postgres Infra
 
 ### Pre-requisites
-MongoDB uses volumeClaimTemplates to request volumes, thus you'll need to create a storageclass. Creating a storageclass
+We create postgres pods through statefulset and use volumeClaimTemplates to request volumes, thus you'll need to create a storageclass. Creating a storageclass
 is outside the scope of this documentation.
 
 ### Customizing your CR
