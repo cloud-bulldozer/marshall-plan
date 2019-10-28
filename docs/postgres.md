@@ -22,8 +22,8 @@ spec:
   infrastructure:
     name: postgres
     args:
-      clusters: 1 # number of postgres clusters
-      cluster_size: 3 # number of pods per postgres cluster
+      clusters: 2 # number of postgres clusters
+      cluster_size: 1 # number of pods per postgres cluster
       #storageclass: # uses the sc with the annotation storageclass.kubernetes.io/is-default-class: "true" if the option is not specified or commented
       storagesize: 10Gi # default value if option not specified
       port: 5432 # default value if option not specified
@@ -46,4 +46,7 @@ NAME      READY   STATUS    RESTARTS   AGE
 postgres0-0   1/1     Running   0          51s
 ```
 
-The connection string URI for the first cluster would be postgres0-0.postgres0.builder-infra.svc.cluster.local:5432 and for second cluster it would be postgres1-0.postgres1.builder-infra.svc.cluster.local:27017
+The connection string URI for the first cluster would be postgres0-0.postgres0.builder-infra.svc.cluster.local:5432 and for second cluster it would be postgres1-0.postgres1.builder-infra.svc.cluster.local:5432 and the database details are:
+POSTGRES_DB: testdb
+POSTGRES_USER: test
+POSTGRES_PASSWORD: test
